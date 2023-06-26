@@ -1,0 +1,42 @@
+server:
+  port: 9090
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/rongxiaotong?serverTimezone=GMT%2B8&useUnicode=true&characterEncodeing=UTF-8&useSSL=false
+    username: root
+    password: zq0814
+  jackson:
+    time-zone: GMT+8
+  redis:
+    host: localhost
+    port: 6379
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 500MB
+      max-request-size: 500MB
+  application:
+    name: uploadService8007
+  resources:
+    static-locations: file:d:/zq/file/order,file:d:/zq/file/avatar,file:d:/zq/file/video
+  mvc:
+    static-path-pattern: /file/**
+application:
+    upload-path: d:/zq/file
+#mybatis配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+#nginx存放图片的路径
+file:
+  location:
+    directory: /usr/local/learn/docker/nginx/html/
+# 支付宝 appId,私钥，支付宝公钥
+alipay:
+  info:
+    appId:
+    privateKey:
+    alipayPublicKey:

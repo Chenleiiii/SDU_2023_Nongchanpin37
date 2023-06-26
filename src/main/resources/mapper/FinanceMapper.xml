@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.crop.dao.FinanceDao">
+  <resultMap id="BaseResultMap" type="com.qst.crop.entity.Finance">
+    <result column="bank_id" jdbcType="INTEGER" property="bankId" />
+    <result column="own_name" jdbcType="VARCHAR" property="ownName" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="rate" jdbcType="DECIMAL" property="rate" />
+    <result column="repayment" jdbcType="INTEGER" property="repayment" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <resultMap id="IntentionResultMap" type="com.qst.crop.entity.Intention">
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="amount" jdbcType="INTEGER" property="amount" />
+    <result column="application" jdbcType="VARCHAR" property="application" />
+    <result column="item" jdbcType="VARCHAR" property="item" />
+    <result column="repayment_period" jdbcType="INTEGER" property="repaymentPeriod" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    finance_id, bank_id, own_name,real_name, status, remark, money, rate, repayment, create_time,
+    update_time
+  </sql>
+  <select id="selectByFinance" parameterType="com.qst.crop.entity.Finance" resultMap="BaseResultMap">
+    select 
+    *
+    from tb_finance
+    <where>
+      <if test="bankId != null">
+        and bank_id = #{bankId,jdbcType=INTEGER}
+      </if>
+      <if test="ownName != null">
+        and own_name = #{ownName,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.qst.crop.entity.Finance">
+    select
+    *
+    from tb_finance
+    where finance_id = #{financeId,jdbcType=INTEGER}
+  </select>
+<!--    <select id="selectIntentionByName" resultType="com.qst.crop.entity.Intention">-->
+<!--      SELECT intention,address,amount,application,item FROM tb_financing_intention WHERE user_name = #{name}-->
+<!--    </select>-->
+  <select id="selectIntentionByName" parameterType="java.lang.String" resultMap="IntentionResultMap">
+    SELECT real_name,address,amount,application,item,repayment_period,area,phone
+    FROM tb_financing_intention WHERE user_name = #{name}
+  </select>
+  <select id="selectAvatarByName" resultType="java.lang.String">
+    SELECT avatar FROM tb_user WHERE user_name = #{userName}
+  </select>
+  <select id="selectRecommend" resultType="com.qst.crop.entity.Recommend">
+    SELECT user_name,real_name,phone,address,area,item,amount
+    FROM tb_financing_intention WHERE item = #{product} AND user_name != #{name}
+  </select>
+  <select id="selectIntentionProductByName" resultType="java.lang.String">
+    SELECT item FROM tb_financing_intention WHERE user_name = #{name}
+  </select>
+  <select id="selectAllProductByName" resultType="java.lang.String">
+    SELECT title FROM tb_order WHERE own_name = #{name}
+  </select>
+  <select id="selectAmountByName" resultType="java.lang.Integer">
+    SELECT amount FROM tb_financing_intention WHERE user_name = #{name}
+  </select>
+  <select id="selectMoneyByBankId" resultType="java.math.BigDecimal">
+    SELECT money FROM tb_bank WHERE bank_id = #{bankId}
+  </select>
+  <select id="selectBankById" resultType="com.qst.crop.entity.Bank">
+    SELECT * FROM tb_bank WHERE bank_id = #{bankId}
+  </select>
+  <select id="selectIntention" resultType="com.qst.crop.entity.Intention">
+    SELECT real_name,user_name,address,amount,application,item,repayment_period,area from tb_financing_intention WHERE user_name = #{name}
+  </select>
+  <select id="selectIfApply" resultType="com.qst.crop.entity.Finance">
+    select * from tb_finance where own_name = #{name}
+  </select>
+  <select id="selectPhoneAddressByName" resultType="java.lang.String">
+    select phone,address from tb_user where user_name = #{name}
+  </select>
+  <select id="selectNameByAuth" resultType="java.lang.String">
+    select authorization from tb_user where user_name = #{name}
+  </select>
+    <select id="selectAllRecommend" resultType="com.qst.crop.entity.Recommend">
+      select tb.real_name,tb.address,tb.item,tb.phone,amount,area,avatar,num
+      from
+        (
+          select tb1.real_name,tb1.address,tb1.item,tb1.phone,tb1.amount,tb1.area,(@i:=@i+1) AS num ,avatar from tb_financing_intention AS tb1 INNER JOIN tb_user ON tb1.user_name=tb_user.user_name,(SELECT @i:=0) AS itable
+          where SUBSTRING(tb1.address,(LOCATE('省',tb1.address)+1),(LOCATE('市',tb1.address)))=
+                (select  SUBSTRING(address,(LOCATE('省',address)+1),(LOCATE('市',address))) from tb_financing_intention where user_name=#{name})
+            and tb1.user_name!=#{name}
+            and tb1.item like (select item from tb_financing_intention where user_name=#{name})
+
+
+          union all
+          select tb1.real_name,tb1.address,tb1.item,tb1.phone,tb1.amount,tb1.area,(@i:=@i+1) as num,avatar from tb_financing_intention AS tb1 INNER JOIN tb_user ON tb1.user_name=tb_user.user_name
+          where SUBSTRING(tb1.address,(LOCATE('省',tb1.address)+1),(LOCATE('市',tb1.address)))=
+              (select  SUBSTRING(address,(LOCATE('省',address)+1),(LOCATE('市',address))) from tb_financing_intention where user_name=#{name})
+            and tb1.user_name!=#{name}
+            and tb1.item not like (select item from tb_financing_intention where user_name=#{name})
+
+
+          union all
+          select tb1.real_name,tb1.address,tb1.item,tb1.phone,tb1.amount,tb1.area,(@i:=@i+1) as num,avatar  from tb_financing_intention AS tb1 INNER JOIN tb_user ON tb1.user_name=tb_user.user_name
+          where SUBSTRING(tb1.address,(LOCATE('省',tb1.address)+1),(LOCATE('市',tb1.address)))!=
+              (select  SUBSTRING(address,(LOCATE('省',address)+1),(LOCATE('市',address))) from tb_financing_intention where user_name=#{name})
+            and tb1.user_name!=#{name}
+            and tb1.item like (select item from tb_financing_intention where user_name=#{name})
+
+
+          union all
+          select  tb2.real_name,tb2.address,(select item from tb_financing_intention where user_name=#{name}) as item,tb2.phone,-1 as amount,-1 as area,(@i:=@i+1) as num,tb2.avatar
+          from tb_order tb1 inner join tb_user tb2 on tb1.own_name=tb2.user_name  where tb1.type='goods'
+                                                                                    and SUBSTRING(tb2.address,(LOCATE('省',tb2.address)+1),(LOCATE('市',tb2.address)))=(select  SUBSTRING(address,(LOCATE('省',address)+1),(LOCATE('市',address)))
+            from tb_financing_intention where user_name=#{name})
+                                                                                    and tb2.user_name!=#{name}
+                                                                                    and LOCATE((select item from tb_financing_intention where user_name=#{name}),title)!=0
+
+
+          union all
+          select  tb2.real_name,tb2.address,tb1.title as item,tb2.phone ,-1 as amount,-1 as area,(@i:=@i+1) as num,tb2.avatar
+          from tb_order tb1 inner join tb_user tb2 on tb1.own_name=tb2.user_name  where tb1.type='goods'
+                                                                                    and SUBSTRING(tb2.address,(LOCATE('省',tb2.address)+1),(LOCATE('市',tb2.address)))=(select  SUBSTRING(address,(LOCATE('省',address)+1),(LOCATE('市',address))) from tb_financing_intention where user_name=#{name})
+                                                                                    and tb2.user_name!=#{name}
+                                                                                    and LOCATE((select item from tb_financing_intention where user_name=#{name}),title)=0
+
+        ) tb
+      group by real_name,phone
+      order by num asc
+        LIMIT 0,10
+
+
+    </select>
+  <select id="selectWithNoneIntention" resultType="com.qst.crop.entity.Recommend">
+    select user_name,real_name,address,phone,title as item,sfn1,sfn2,(@i:=@i+1) as num ,-1 as area,-1 as amount,t1.avatar
+    from (select tbl2.avatar,tbl2.user_name,tbl2.real_name,tbl1.title,tbl2.address,tbl2.phone,sfn_GetSimilar_Rate(tbl1.title,tbl2.title) as sfn1,sfn_GetSimilar_Rate(tbl2.title,tbl1.title) as sfn2
+          from (select tb2.avatar,tb2.user_name,tb1.title,tb2.real_name,tb2.address,tb2.phone
+                from tb_order tb1 inner join tb_user tb2 on tb1.own_name=tb2.user_name
+                where  tb1.own_name=#{name} and tb1.type='goods') tbl1
+                 left join (select tb2.avatar,tb2.user_name,tb1.title,tb2.real_name,tb2.address,tb2.phone
+                            from tb_order tb1 inner join tb_user tb2 on tb1.own_name=tb2.user_name
+                            where  tb1.own_name!=#{name} and tb1.type='goods') tbl2
+                           on SUBSTRING(tbl1.address,(LOCATE('省',tbl1.address)+1),(LOCATE('市',tbl1.address))) =  SUBSTRING(tbl2.address,(LOCATE('省',tbl2.address)+1),(LOCATE('市',tbl2.address)))
+          ORDER BY sfn_GetSimilar_Rate(tbl1.title,tbl2.title)+sfn_GetSimilar_Rate(tbl2.title,tbl1.title) desc ) t1,
+
+         (SELECT @i:=0) AS itable
+    group by user_name,real_name
+    order by num asc
+      limit 0,10
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_finance
+    where finance_id = #{financeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteIntentionByName">
+    DELETE FROM tb_financing_intention WHERE user_name = #{name}
+  </delete>
+  <insert id="insertSelective" parameterType="com.qst.crop.entity.Finance">
+    insert into tb_finance
+
+      (bank_id,own_name,real_name,status,money,rate,repayment,create_time,update_time,phone,id_num,file_info)
+
+    values (#{bankId},#{ownName},#{realName},#{status},
+      #{money},#{rate},
+      #{repayment},
+      #{createTime},
+     #{updateTime},
+            #{phone},
+            #{idNum},
+            #{fileInfo})
+
+  </insert>
+  <insert id="insertIntentionByName" parameterType="com.qst.crop.entity.Intention">
+    INSERT INTO tb_financing_intention (user_name,real_name,address,amount,application,item,repayment_period,area,phone,create_time,update_time)
+    VALUES (#{userName},#{realName},#{address},#{amount},#{application},#{item},#{repaymentPeriod},#{area},#{phone},#{createTime},#{updateTime})
+  </insert>
+    <insert id="insertMulti" parameterType="com.qst.crop.entity.Finance">
+      insert into tb_finance
+      (bank_id,own_name,real_name,phone,id_num,status,money,rate,repayment,create_time,update_time,combination_name1,combination_phone1,
+       combination_idnum1,combination_name2,combination_phone2,combination_idnum2,file_info)
+
+      values (#{bankId},#{ownName},#{realName},#{phone},#{idNum},#{status},
+              #{money},#{rate},#{repayment},#{createTime},#{updateTime},
+              #{combinationName1},#{combinationPhone1},#{combinationIdnum1},#{combinationName2},#{combinationPhone2},
+              #{combinationIdnum2},#{fileInfo})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.qst.crop.entity.Finance">
+    update tb_finance
+    <set>
+
+
+      <if test="realName != null">
+        real_name = #{realName},
+      </if>
+      <if test="phone != null">
+        phone = #{phone},
+      </if>
+      <if test="idNum != null">
+        id_num = #{idNum},
+      </if>
+
+
+      <if test="money != null">
+        money = #{money},
+      </if>
+
+      <if test="repayment != null">
+        repayment = #{repayment},
+      </if>
+
+      <if test="updateTime != null">
+        update_time = #{updateTime},
+      </if>
+      <if test="combinationName1 != null">
+        combination_name1 = #{combinationName1},
+      </if>
+      <if test="combinationPhone1 != null">
+        combination_phone1 = #{combinationPhone1},
+      </if>
+      <if test="combinationIdnum1 != null">
+        combination_idnum1 = #{combinationIdnum1},
+      </if>
+      <if test="combinationName2 != null">
+        combination_name2 = #{combinationName2},
+      </if>
+      <if test="combinationPhone2 != null">
+        combination_phone2 = #{combinationPhone2},
+      </if>
+      <if test="combinationIdnum2 != null">
+        combination_idnum2 = #{combinationIdnum2},
+      </if>
+
+    </set>
+    where finance_id = #{financeId}
+  </update>
+  <update id="updateIntentionByName" parameterType="com.qst.crop.entity.Intention">
+    UPDATE tb_financing_intention set
+        real_name = #{realName},
+        amount = #{amount},
+        application = #{application},
+        item = #{item},
+        repayment_period = #{repaymentPeriod},
+        address = #{address},
+        area = #{area},
+        phone = #{phone},
+        update_time = #{updateTime}
+    WHERE user_name = #{userName}
+  </update>
+  <update id="AuthorizationtoUser">
+    UPDATE tb_user SET authorization = #{name} WHERE user_name = #{userName}
+  </update>
+</mapper>
+<!--        UPDATE tb_financing_intention-->
+<!--<set>-->
+<!--<if test="amount != null">-->
+<!--  amount = #{amount,jdbcType=INTEGER},-->
+<!--</if>-->
+<!--<if test="application != null">-->
+<!--  application = #{application,jdbcType=VARCHAR},-->
+<!--</if>-->
+<!--<if test="item != null">-->
+<!--  item = #{item,jdbcType=VARCHAR},-->
+<!--</if>-->
+<!--<if test="repaymentPeriod != null">-->
+<!--  repayment_period = #{repaymentPeriod,jdbcType=INTEGER}-->
+<!--</if>-->
+<!--<if test="address != null">-->
+<!--  address = #{address,jdbcType=VARCHAR}-->
+<!--</if>-->
+<!--</set>-->
+<!--        WHERE user_name = #{userName,jdbcType=VARCHAR}-->
