@@ -1,12 +1,12 @@
 package com.qst.crop.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.qst.crop.common.Result;
 import com.qst.crop.common.StatusCode;
 import com.qst.crop.entity.Discuss;
 import com.qst.crop.entity.Knowledge;
 import com.qst.crop.service.DiscussService;
 import com.qst.crop.service.KnowledgeService;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+
 /**
  * @author QST
  * @Description 知识模块

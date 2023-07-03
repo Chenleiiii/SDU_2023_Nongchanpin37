@@ -1,12 +1,11 @@
 package com.qst.crop.service.impl;
 
-import com.qst.crop.dao.AddressDao;
-import com.qst.crop.dao.UserDao;
-import com.qst.crop.entity.Address;
-import com.qst.crop.entity.User;
-import com.qst.crop.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.qst.crop.dao.AddressDao;
+import com.qst.crop.dao.UserDao;
+import com.qst.crop.entity.User;
+import com.qst.crop.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
