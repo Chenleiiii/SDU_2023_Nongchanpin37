@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.crop.dao.ShoppingcartDao">
+  <resultMap id="ModelMap" type="com.qst.crop.model.ShoppingModel">
+    <id column="shopping_id" jdbcType="INTEGER" property="shoppingId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="own_name" jdbcType="VARCHAR" property="ownName" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="picture" jdbcType="VARCHAR" property="picture" />
+  </resultMap>
+  <resultMap id="BaseResultMap" type="com.qst.crop.entity.Shoppingcart">
+    <id column="shopping_id" jdbcType="INTEGER" property="shoppingId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="own_name" jdbcType="VARCHAR" property="ownName" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    shopping_id, order_id, count, own_name, create_time, update_time
+  </sql>
+  <select id="selectByShopping" parameterType="com.qst.crop.entity.Shoppingcart" resultMap="ModelMap">
+    SELECT
+    sho.shopping_id , sho.order_id, ord.own_name, sho.count, ord.title, ord.content, ord.price, ord.picture
+    FROM
+    tb_shoppingcart sho
+    LEFT JOIN tb_order ord ON sho.order_id = ord.order_id
+    <where>
+      <if test="ownName != null">
+        and sho.own_name = #{ownName}
+      </if>
+      <if test="orderId != null">
+        and sho.order_id = #{orderId}
+      </if>
+    </where>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_shoppingcart
+    where shopping_id = #{shoppingId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.qst.crop.entity.Shoppingcart">
+    insert into tb_shoppingcart
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shoppingId != null">
+        shopping_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+      <if test="ownName != null">
+        own_name,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shoppingId != null">
+        #{shoppingId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="ownName != null">
+        #{ownName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qst.crop.entity.Shoppingcart">
+    update tb_shoppingcart
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="count != null">
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="ownName != null">
+        own_name = #{ownName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where shopping_id = #{shoppingId,jdbcType=INTEGER}
+  </update>
+</mapper>
