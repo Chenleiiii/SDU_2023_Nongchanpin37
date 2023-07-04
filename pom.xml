@@ -78,6 +78,11 @@
             <artifactId>hibernate-validator</artifactId>
             <version>5.4.1.Final</version>
         </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-core</artifactId>
+            <version>3.4.2</version>
+        </dependency>
         <!--        这个有问题得用springboot-->
         <!--        <dependency>-->
         <!--            <groupId>com.github.pagehelper</groupId>-->
