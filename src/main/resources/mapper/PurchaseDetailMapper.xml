@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.crop.dao.PurchaseDetailDao">
+  <resultMap id="BaseResultMap" type="com.qst.crop.entity.PurchaseDetail">
+    <id column="detail_id" jdbcType="INTEGER" property="detailId" />
+    <result column="purchase_id" jdbcType="INTEGER" property="purchaseId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="unin_price" jdbcType="DECIMAL" property="uninPrice" />
+    <result column="sum_price" jdbcType="DECIMAL" property="sumPrice" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    detail_id, purchase_id, order_id, unin_price, sum_price, count
+  </sql>
+  <select id="selectByPurchaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_purchase_detail
+    where purchase_id = #{purchaseId,jdbcType=INTEGER}
+  </select>
+
+  <insert id="insertSelective" parameterType="com.qst.crop.entity.PurchaseDetail">
+    insert into tb_purchase_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="detailId != null">
+        detail_id,
+      </if>
+      <if test="purchaseId != null">
+        purchase_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="uninPrice != null">
+        unin_price,
+      </if>
+      <if test="sumPrice != null">
+        sum_price,
+      </if>
+      <if test="count != null">
+        count,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="detailId != null">
+        #{detailId,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseId != null">
+        #{purchaseId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="uninPrice != null">
+        #{uninPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="sumPrice != null">
+        #{sumPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null">
+        #{count,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

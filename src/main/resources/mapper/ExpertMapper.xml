@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.crop.dao.ExpertDao">
+    <resultMap id="BaseResultMap" type="com.qst.crop.entity.Expert">
+        <id column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="real_name" jdbcType="VARCHAR" property="realName" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="profession" jdbcType="VARCHAR" property="profession" />
+        <result column="position" jdbcType="VARCHAR" property="position" />
+        <result column="belong" jdbcType="VARCHAR" property="belong" />
+    </resultMap>
+    <select id="selectExpertByKeys" parameterType="java.lang.String" resultMap="BaseResultMap">
+      SELECT * FROM tb_expert
+        <where>
+            <if test="keys != null">
+                real_name like CONCAT('%',#{keys,jdbcType=VARCHAR},'%') OR user_name like CONCAT('%',#{keys,jdbcType=VARCHAR},'%')
+            </if>
+        </where>
+    </select>
+</mapper>
