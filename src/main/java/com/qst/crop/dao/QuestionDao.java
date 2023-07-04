@@ -1,21 +1,29 @@
 package com.qst.crop.dao;
 
 import com.qst.crop.entity.Question;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
+@Mapper
+@Repository
 public interface QuestionDao {
+    List<Question> selectQuesByKeys(@Param("keys") String keys);
 
-    int deleteByPrimaryKey(Integer id);
+    Question selectById(Integer id);
 
-    int insertSelective(Question record);
+    int insertQuestion(Question question);
 
-    Question selectByPrimaryKey(Integer id);
+    int updateQuestionById(Question question);
 
-    int updateByPrimaryKeySelective(Question record);
+    List<Question> selectByMan(Question question);
 
-    List<Question> selectByQuestion(Question record);
+    int deleteQuestionById(Integer id);
 
-    List<Question> selectAllByKeys(@Param("keys")String keys);
+
+
+
 
 }
