@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.crop.dao.KnowledgeDao">
+    <resultMap id="BaseResultMap" type="com.qst.crop.entity.Knowledge">
+        <id column="knowledge_id" jdbcType="INTEGER" property="knowledgeId" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="pic_path" jdbcType="VARCHAR" property="picPath" />
+        <result column="own_name" jdbcType="VARCHAR" property="ownName" />
+        <result column="create_time" jdbcType="TIME" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        knowledge_id, title, content, pic_path, own_name, create_time, update_time
+    </sql>
+    <insert id="insertSelective" parameterType="com.qst.crop.entity.Knowledge">
+        insert into tb_knowledge
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="knowledgeId != null">
+                knowledge_id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="picPath != null">
+                pic_path,
+            </if>
+            <if test="ownName != null">
+                own_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="knowledgeId != null">
+                #{knowledgeId,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="picPath != null">
+                #{picPath,jdbcType=VARCHAR},
+            </if>
+            <if test="ownName != null">
+                #{ownName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIME},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectByExample" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_knowledge
+        <where>
+            <if test="name != null and name != ''">
+                and own_name = #{name}
+            </if>
+        </where>
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_knowledge
+    </select>
+    <select id="selectAllByKeys" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_knowledge
+        where
+        title like CONCAT('%',#{keys,jdbcType=VARCHAR},'%')
+    </select>
+    <update id="updateByPrimaryKeySelective" parameterType="com.qst.crop.entity.Knowledge">
+        update tb_knowledge
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="picPath != null">
+                pic_path = #{picPath,jdbcType=VARCHAR},
+            </if>
+            <if test="ownName != null">
+                own_name = #{ownName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIME},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where knowledge_id = #{knowledgeId,jdbcType=INTEGER}
+    </update>
+                <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.qst.crop.entity.Knowledge">
+        select
+        <include refid="Base_Column_List" />
+        from tb_knowledge
+        where knowledge_id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from tb_knowledge
+        where knowledge_id = #{knowledgeId,jdbcType=INTEGER}
+    </delete>
+</mapper>

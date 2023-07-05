@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.crop.dao.BankDao">
+  <resultMap id="BaseResultMap" type="com.qst.crop.entity.Bank">
+    <id column="bank_id" jdbcType="INTEGER" property="bankId" />
+    <result column="bank_name" jdbcType="VARCHAR" property="bankName" />
+    <result column="introduce" jdbcType="VARCHAR" property="introduce" />
+    <result column="bank_phone" jdbcType="VARCHAR" property="bankPhone" />
+    <result column="money" jdbcType="DECIMAL" property="money" />
+    <result column="rate" jdbcType="DECIMAL" property="rate" />
+    <result column="repayment" jdbcType="INTEGER" property="repayment" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    bank_id, bank_name, introduce, bank_phone, money, rate, repayment
+  </sql>
+  <select id="selectAllBank" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_bank
+  </select>
+</mapper>
