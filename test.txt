@@ -1,0 +1,193 @@
+//AddressControllerTest
+
+package com.example.rongxiaotong.controller;
+
+import com.example.rongxiaotong.common.Result;
+import com.example.rongxiaotong.entity.Address;
+import com.example.rongxiaotong.service.AddressService;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:applicationContext.xml")
+@SpringBootTest
+@Transactional
+public class AddressControllerTest {
+
+    @Autowired
+    private AddressController addressController;
+
+    @Autowired
+    private AddressService addressService;
+
+    @Test
+    public void testAdd() {
+        Address address = new Address();
+        address.setOwnName("test");
+        address.setIsDefault(true);
+        Result result = addressController.add(address, null);
+        Assert.assertTrue(result.isFlag());
+        Assert.assertNotNull(address.getId());
+    }
+
+    @Test
+    public void testSelectByOwnName() {
+        Result<List<Address>> result = addressController.selectByOwnName();
+        Assert.assertTrue(result.isFlag());
+        List<Address> addresses = result.getData();
+        Assert.assertNotNull(addresses);
+    }
+
+    @Test
+    public void testSelectDefaultByOwnName() {
+        Result<Address> result = addressController.selectDefaultByOwnName();
+        Assert.assertTrue(result.isFlag());
+        Address address = result.getData();
+        Assert.assertNull(address);
+    }
+
+    @Test
+    public void testDefaultAddressInfoUpdate() {
+        Address address = new Address();
+        address.setOwnName("test");
+        address.setIsDefault(true);
+        addressService.add(address);
+        address.setAddressDetail("test address");
+        Result<String> result = addressController.defaultAddressInfoUpdate(address, null);
+        Assert.assertTrue(result.isFlag());
+        Address defaultAddress = addressService.selectDefaultByOwnName();
+        Assert.assertNotNull(defaultAddress);
+        Assert.assertEquals(defaultAddress.getAddressDetail(), address.getAddressDetail());
+    }
+
+    @Test
+    public void testUpdate() {
+        Address address = new Address();
+        address.setOwnName("test");
+        address.setIsDefault(false);
+        addressService.add(address);
+        address.setAddressDetail("test address");
+        Result result = addressController.update(address.getId(), address);
+        Assert.assertTrue(result.isFlag());
+        Address updatedAddress = (Address) addressService.selectByOwnName();
+        Assert.assertNotNull(updatedAddress);
+        Assert.assertEquals(updatedAddress.getAddressDetail(), address.getAddressDetail());
+    }
+
+    @Test
+    public void testDelete() {
+        Address address = new Address();
+        address.setOwnName("test");
+        address.setIsDefault(false);
+        addressService.add(address);
+        Result result = addressController.delete(address.getId());
+        Assert.assertTrue(result.isFlag());
+        Assert.assertNull(addressService.selectByOwnName());
+    }
+}
+
+
+
+//AddressServiceTest
+
+package com.example.rongxiaotong.service;
+
+import com.example.rongxiaotong.entity.Address;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:applicationContext.xml")
+@SpringBootTest
+@Transactional
+public class AddressServiceTest {
+    @Autowired
+    private AddressService addressService;
+
+    @Test
+    public void testAdd() {
+        Address address = new Address();
+        address.setOwnName("test");
+        address.setIsDefault(true);
+        addressService.add(address);
+        Assert.assertNotNull(address.getId());
+    }
+
+    @Test
+    public void testSelectByOwnName() {
+        List<Address> addresses = addressService.selectByOwnName();
+        Assert.assertNotNull(addresses);
+    }
+
+    @Test
+    public void testSelectDefaultByOwnName() {
+        Address address = addressService.selectDefaultByOwnName();
+        Assert.assertNull(address);
+    }
+
+    @Test
+    public void testDefaultAddressInfoUpdate() {
+        Address address = new Address();
+        address.setOwnName("test");
+        address.setIsDefault(true);
+        addressService.defaultAddressInfoUpdate(address);
+        Address defaultAddress = addressService.selectDefaultByOwnName();
+        Assert.assertNotNull(defaultAddress);
+        Assert.assertEquals(defaultAddress.getId(), address.getId());
+    }
+
+    @Test
+    public void testUpdate() {
+        Address address = new Address();
+        address.setOwnName("test");
+        address.setIsDefault(false);
+        addressService.add(address);
+        address.setIsDefault(true);
+        addressService.update(address);
+        Address defaultAddress = addressService.selectDefaultByOwnName();
+        Assert.assertNotNull(defaultAddress);
+        Assert.assertEquals(defaultAddress.getId(), address.getId());
+    }
+
+    @Test
+    public void testDelete() {
+        Address address = new Address();
+        address.setOwnName("test");
+        address.setIsDefault(false);
+        addressService.add(address);
+        boolean success = addressService.delete(address.getId());
+        Assert.assertTrue(success);
+    }
+
+    @Test
+    public void testSetZero() {
+        Address address1 = new Address();
+        address1.setOwnName("test");
+        address1.setIsDefault(true);
+        addressService.add(address1);
+        Address address2 = new Address();
+        address2.setOwnName("test");
+        address2.setIsDefault(false);
+        addressService.add(address2);
+        addressService.setZero();
+        Address defaultAddress = addressService.selectDefaultByOwnName();
+        Assert.assertNull(defaultAddress);
+    }
+
+}

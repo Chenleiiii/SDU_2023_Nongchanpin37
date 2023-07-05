@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.crop.dao.PurchaseDao">
+  <resultMap id="BaseResultMap" type="com.qst.crop.entity.Purchase">
+    <id column="purchase_id" jdbcType="INTEGER" property="purchaseId" />
+    <result column="own_name" jdbcType="VARCHAR" property="ownName" />
+    <result column="purchase_type" jdbcType="INTEGER" property="purchaseType" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="purchase_status" jdbcType="INTEGER" property="purchaseStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    purchase_id, own_name, purchase_type, total_price, address, purchase_status, create_time,
+    update_time
+  </sql>
+
+  <insert id="insertSelective" parameterType="com.qst.crop.entity.Purchase">
+    insert into tb_purchase
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="purchaseId != null">
+        purchase_id,
+      </if>
+      <if test="ownName != null">
+        own_name,
+      </if>
+      <if test="purchaseType != null">
+        purchase_type,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="purchaseStatus != null">
+        purchase_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="purchaseId != null">
+        #{purchaseId,jdbcType=INTEGER},
+      </if>
+      <if test="ownName != null">
+        #{ownName,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseType != null">
+        #{purchaseType,jdbcType=INTEGER},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseStatus != null">
+        #{purchaseStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="selectNewPurchaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    tb_purchase
+    where
+    own_name = #{ownName}
+    order by create_time desc
+    limit 1
+  </select>
+  <select id="selectByPurchase" resultType="com.qst.crop.model.MyPurchase">
+    select tb.purchaseId,tu.real_name as ownName,tb.purchaseType,
+           tb.totalPrice,tu.address ,tb.purchaseStatus ,tb.createTime ,
+           tb.updateTime,tb.picture
+    from tb_user as tu,
+         (SELECT DISTINCT tb1.purchase_id as purchaseId, tb1.own_name as ownName, tb1.purchase_type as purchaseType,
+                          tb1.total_price as totalPrice, tb1.address as address, tb1.purchase_status as purchaseStatus, tb1.create_time as createTime,
+                          tb1.update_time as updateTime,tb3.picture as picture
+          FROM tb_purchase AS tb1,tb_purchase_detail AS tb2,tb_order AS tb3 WHERE tb1.own_name=#{name}
+                                                                              AND tb1.purchase_id = tb2.purchase_id AND tb2.order_id = tb3.order_id GROUP BY tb1.purchase_id) as tb
+    WHERE tu.user_name = tb.ownName
+  </select>
+</mapper>
