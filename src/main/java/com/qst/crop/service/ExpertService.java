@@ -1,25 +1,26 @@
 package com.qst.crop.service;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.qst.crop.dao.ExpertDao;
 import com.qst.crop.entity.Expert;
-import com.qst.crop.entity.Order;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface ExpertService {
+@Service
+public class ExpertService {
+    @Autowired
+    private ExpertDao expertMapper;
 
-    void delete(String type);
+    //每页显示多条数据
+    private Integer pageSize = 30;
 
-    void insert(Expert record);
-
-    Expert selectById(String type);
-
-    void updateById(Expert record);
-
-    List<Expert> selectAllExpert();
-
-    PageInfo<Expert> findPage(Integer pageNum);
-
-    PageInfo<Expert> findPageByKeys(String keys, Integer pageNum);
-
+    public PageInfo<Expert> selectByKeys(String keys, Integer pageNum){
+        PageHelper.startPage(pageNum, pageSize);
+        List<Expert> experts = expertMapper.selectExpertByKeys(keys);
+        PageInfo<Expert> expertPageInfo = new PageInfo<>(experts);
+        return expertPageInfo;
+    }
 }
