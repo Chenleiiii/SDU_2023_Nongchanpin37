@@ -16,16 +16,19 @@
     <result column="answer" jdbcType="VARCHAR" property="answer" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
+
   <sql id="Base_Column_List">
     id, expert_name, questioner, area, address, plant_name, soil_condition, plant_condition, 
     plant_detail, phone, message, answer, status
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from tb_reserve
     where id = #{id,jdbcType=INTEGER}
   </select>
+
   <select id="selectByReserve" parameterType="com.qst.crop.entity.Reserve" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -39,11 +42,13 @@
       </if>
     </where>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+  <delete id="delete" parameterType="java.lang.Integer">
     delete from tb_reserve
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insertSelective" parameterType="com.qst.crop.entity.Reserve">
+
+  <insert id="insert" parameterType="com.qst.crop.entity.Reserve">
     insert into tb_reserve
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -128,7 +133,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.qst.crop.entity.Reserve">
+
+  <update id="update" parameterType="com.qst.crop.entity.Reserve">
     update tb_reserve
     <set>
       <if test="expertName != null">

@@ -12,4 +12,20 @@ public class PasswordParam {
     @NotBlank
     @Pattern(  regexp = "^[a-zA-Z][a-zA-Z0-9_]{5,17}$",message = "密码必须以字母开头，长度在6-18之间，只能包含英文字符、数字和下划线")
     private String newPassword;
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
+    }
 }

@@ -8,16 +8,19 @@
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
   </resultMap>
+
   <sql id="Base_Column_List">
     discuss_id, knowledge_id, own_name, content, create_time
   </sql>
+
   <select id="selectByKnowledgeId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from tb_discuss
     where knowledge_id = #{knowledgeId,jdbcType=INTEGER}
   </select>
-  <insert id="insertSelective" parameterType="com.qst.crop.entity.Discuss">
+
+  <insert id="insert" parameterType="com.qst.crop.entity.Discuss">
     insert into tb_discuss
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="discussId != null">

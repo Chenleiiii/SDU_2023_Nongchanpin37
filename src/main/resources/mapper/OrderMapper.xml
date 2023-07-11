@@ -15,11 +15,13 @@
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
         <result column="address" jdbcType="VARCHAR" property="address" />
     </resultMap>
+
     <sql id="Base_Column_List">
         order_id, title, price, content, order_status, type, picture, own_name, cooperation_name,
         create_time, update_time, address
     </sql>
-    <insert id="insertSelective" parameterType="com.qst.crop.entity.Order">
+
+    <insert id="insert" parameterType="com.qst.crop.entity.Order">
         insert into tb_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="orderId != null">
@@ -99,7 +101,7 @@
         </trim>
     </insert>
 
-    <select id="selectByExample" parameterType="com.qst.crop.entity.Order" resultMap="BaseResultMap">
+    <select id="selectByOrder" parameterType="com.qst.crop.entity.Order" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from tb_order
@@ -142,8 +144,9 @@
                 and address = #{address,jdbcType=VARCHAR}
             </if>
         </where>
-order by order_status
+        order by order_status
     </select>
+
     <select id="selectAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
@@ -151,7 +154,8 @@ order by order_status
         where order_status=0
         order by update_time desc
     </select>
-    <update id="updateByPrimaryKeySelective" parameterType="com.qst.crop.entity.Order">
+
+    <update id="updateById" parameterType="com.qst.crop.entity.Order">
         update tb_order
         <set>
             <if test="title != null">
@@ -190,26 +194,31 @@ order by order_status
         </set>
         where order_id = #{orderId,jdbcType=INTEGER}
     </update>
+
     <update id="takeDown">
         update tb_order
         set order_status = 1
         where order_id = #{orderId};
     </update>
+
     <update id="takeUp">
         update tb_order
         set order_status = 0
         where order_id = #{orderId};
     </update>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.qst.crop.entity.Order">
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="com.qst.crop.entity.Order">
         select
         <include refid="Base_Column_List" />
         from tb_order
         where order_id = #{orderId,jdbcType=INTEGER}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+    <delete id="delete" parameterType="java.lang.Integer">
         delete from tb_order
         where order_id = #{orderId,jdbcType=INTEGER}
     </delete>
+
     <select id="selectByKeys" parameterType="com.qst.crop.entity.Order" resultType="com.qst.crop.entity.Order">
             select
             <include refid="Base_Column_List" />
@@ -227,7 +236,8 @@ order by order_status
                 </if>
 
             </where>
-        </select>
+    </select>
+
     <select id="selectAllGoods" resultType="com.qst.crop.entity.Order">
         select
         <include refid="Base_Column_List" />
@@ -272,6 +282,7 @@ order by order_status
             </if>
         </where>
     </select>
+
     <select id="selectAllNeeds" resultType="com.qst.crop.entity.Order">
         select
         <include refid="Base_Column_List" />

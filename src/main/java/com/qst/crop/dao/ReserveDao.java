@@ -1,17 +1,21 @@
 package com.qst.crop.dao;
 
 import com.qst.crop.entity.Reserve;
-import java.util.List;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+@Component
+@Repository
 public interface ReserveDao {
 
-    int deleteByPrimaryKey(Integer id);
+    int delete(Integer id);
 
-    int insertSelective(Reserve record);
+    int insert(Reserve record);
 
-    Reserve selectByPrimaryKey(Integer id);
+    Reserve selectById(Integer id);
 
-    int updateByPrimaryKeySelective(Reserve record);
+    int update(Reserve record);
 
     List<Reserve> selectByReserve(Reserve record);
 }

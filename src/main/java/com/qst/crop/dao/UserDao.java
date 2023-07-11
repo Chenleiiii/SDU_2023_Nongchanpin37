@@ -1,6 +1,6 @@
 package com.qst.crop.dao;
 
-import com.example.rouxiaoshixun.entity.User;
+import com.qst.crop.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
@@ -9,16 +9,18 @@ import java.util.List;
 
 @Repository
 @Component
-@Mapper
 public interface UserDao {
 
-    User selectByPrimaryKey(String userName);
+    User selectByName(String userName);
 
-    int insertSelective(User user);
+    int insert(User user);
 
-    int updateByPrimaryKeySelective(User user);
+    int updateByName(User user);
 
     List<User> selectAll();
 
-    int deleteByPrimaryKey(String userName);
+    int deleteByName(String userName);
+
+    String selectAddressByName(String ownName);
+
 }

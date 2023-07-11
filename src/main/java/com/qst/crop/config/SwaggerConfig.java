@@ -25,7 +25,7 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 
 	@Bean
 	public Docket createAdminRestApi() {
-		return new Docket(DocumentationType.SWAGGER_2).groupName("XXXX系统").apiInfo(this.apiInfo()).select()
+		return new Docket(DocumentationType.SWAGGER_2).groupName("农产品融销一体平台").apiInfo(this.apiInfo()).select()
 				.apis(RequestHandlerSelectors.basePackage(adminBasePackage)).paths(PathSelectors.any()).build()
 				.securitySchemes(securitySchemes()).securityContexts(securityContexts());
 	}
@@ -47,8 +47,8 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
 	}
 
 	private ApiInfo apiInfo() {
-		return new ApiInfoBuilder().title("XXXX系统API文档接口").contact(new Contact("西安天尚行网络科技有限公司", "", ""))
-				.version("1.0.0").description("XXXX系统API文档接口").build();
+		return new ApiInfoBuilder().title("农产品融销一体平台API文档接口").contact(new Contact("", "", ""))
+				.version("1.0.0").description("农产品融销一体平台统API文档接口").build();
 	}
 
 	@Override

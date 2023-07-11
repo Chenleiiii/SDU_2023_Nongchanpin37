@@ -10,10 +10,12 @@
         <result column="create_time" jdbcType="TIME" property="createTime" />
         <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     </resultMap>
+
     <sql id="Base_Column_List">
         knowledge_id, title, content, pic_path, own_name, create_time, update_time
     </sql>
-    <insert id="insertSelective" parameterType="com.qst.crop.entity.Knowledge">
+
+    <insert id="insert" parameterType="com.qst.crop.entity.Knowledge">
         insert into tb_knowledge
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="knowledgeId != null">
@@ -63,7 +65,7 @@
         </trim>
     </insert>
 
-    <select id="selectByExample" resultMap="BaseResultMap">
+    <select id="selectByName" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from tb_knowledge
@@ -73,19 +75,22 @@
             </if>
         </where>
     </select>
+
     <select id="selectAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from tb_knowledge
     </select>
-    <select id="selectAllByKeys" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    <select id="selectKnowledgeByKeys" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from tb_knowledge
         where
         title like CONCAT('%',#{keys,jdbcType=VARCHAR},'%')
     </select>
-    <update id="updateByPrimaryKeySelective" parameterType="com.qst.crop.entity.Knowledge">
+
+    <update id="updateById" parameterType="com.qst.crop.entity.Knowledge">
         update tb_knowledge
         <set>
             <if test="title != null">
@@ -109,13 +114,15 @@
         </set>
         where knowledge_id = #{knowledgeId,jdbcType=INTEGER}
     </update>
-                <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.qst.crop.entity.Knowledge">
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="com.qst.crop.entity.Knowledge">
         select
         <include refid="Base_Column_List" />
         from tb_knowledge
         where knowledge_id = #{id,jdbcType=INTEGER}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
         delete from tb_knowledge
         where knowledge_id = #{knowledgeId,jdbcType=INTEGER}
     </delete>

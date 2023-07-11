@@ -10,9 +10,11 @@
     <result column="rate" jdbcType="DECIMAL" property="rate" />
     <result column="repayment" jdbcType="INTEGER" property="repayment" />
   </resultMap>
+
   <sql id="Base_Column_List">
     bank_id, bank_name, introduce, bank_phone, money, rate, repayment
   </sql>
+
   <select id="selectAllBank" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
