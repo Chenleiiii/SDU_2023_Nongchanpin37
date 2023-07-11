@@ -3,20 +3,22 @@ package com.qst.crop.dao;
 import com.qst.crop.entity.Address;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Component
+@Repository
 public interface AddressDao{
-    int insertSelective(Address address);
+    int insert(Address address);
 
-    List<Address> selectByExample(@Param("name")String name);
+    List<Address> selectByOwnName(@Param("name")String name);
 
-    Address selectOneByExample(String name,String isDef);
+    Address selectDefaultByOwnName(String name,String isDef);
 
-    int updateByPrimaryKey(Address address);
+    int updateById(Address address);
 
-    Address selectByPrimaryKey(Integer id);
+    Address selectById(Integer id);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteById(Integer id);
 }

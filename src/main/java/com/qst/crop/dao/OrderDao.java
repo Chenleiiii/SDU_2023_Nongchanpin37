@@ -1,24 +1,26 @@
 package com.qst.crop.dao;
 
 import com.qst.crop.entity.Order;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Component
 @Repository
 public interface OrderDao{
 
     List<Order> selectAll();
 
-    List<Order> selectByExample(Order order);
+    List<Order> selectByOrder(Order order);
 
-    int insertSelective(Order order);
+    int insert(Order order);
 
-    int updateByPrimaryKeySelective(Order order);
+    int updateById(Order order);
 
-    int deleteByPrimaryKey(Integer id);
+    int delete(Integer id);
 
-    Order selectByPrimaryKey(Integer id);
+    Order selectById(Integer id);
 
     List<Order> selectByKeys(Order order);
 

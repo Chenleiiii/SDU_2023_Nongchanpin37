@@ -15,22 +15,14 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="phone" jdbcType="VARCHAR" property="phone" />
   </resultMap>
+
   <sql id="Base_Column_List">
 
     sell_purchase_id, purchase_id, order_id,own_name, purchase_type, unin_pricee, sum_price, address,
     purchase_status, create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from tb_sell_purchase
-    where sell_purchase_id = #{sellPurchaseId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from tb_sell_purchase
-    where sell_purchase_id = #{sellPurchaseId,jdbcType=INTEGER}
-  </delete>
-  <insert id="insertSelective" parameterType="com.qst.crop.entity.SellPurchase">
+
+  <insert id="insert" parameterType="com.qst.crop.entity.SellPurchase">
     insert into tb_sell_purchase
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="sellPurchaseId != null">
@@ -103,44 +95,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.qst.crop.entity.SellPurchase">
-    update tb_sell_purchase
-    <set>
-      <if test="purchaseId != null">
-        purchase_id = #{purchaseId,jdbcType=INTEGER},
-      </if>
-      <if test="orderId != null">
-        order_id = #{orderId,jdbcType=INTEGER},
-      </if>
-      <if test="ownName != null">
-        own_name = #{ownName,jdbcType=VARCHAR},
-      </if>
-      <if test="purchaseType != null">
-        purchase_type = #{purchaseType,jdbcType=INTEGER},
-      </if>
-      <if test="uninPricee != null">
-        unin_pricee = #{uninPricee,jdbcType=DECIMAL},
-      </if>
-      <if test="sumPrice != null">
-        sum_price = #{sumPrice,jdbcType=DECIMAL},
-      </if>
-      <if test="address != null">
-        address = #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="purchaseStatus != null">
-        purchase_status = #{purchaseStatus,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where sell_purchase_id = #{sellPurchaseId,jdbcType=INTEGER}
-  </update>
-  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
 
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
     SELECT tb.sell_purchase_id,tb.purchase_id ,tb.order_id ,tu.real_name as own_name ,tb.purchase_type ,tb.unin_pricee ,tb.sum_price ,tb.purchase_status ,tb.create_time ,
     tb.update_time,tu.address,tu.phone from tb_user as tu,
     (SELECT tb1.*,tb2.own_name as realName

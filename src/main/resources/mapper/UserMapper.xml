@@ -15,11 +15,13 @@
         <result column="credit" jdbcType="INTEGER" property="credit" />
         <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     </resultMap>
+
     <sql id="Base_Column_List">
         user_name,real_name, password, nick_name, phone, identity_num, address, role, create_time,
         update_time, integral, credit, avatar
     </sql>
-    <insert id="insertSelective" parameterType="com.qst.crop.entity.User">
+
+    <insert id="insert" parameterType="com.qst.crop.entity.User">
         insert into tb_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userName != null">
@@ -99,17 +101,13 @@
         </trim>
     </insert>
 
-    <select id="selectByExample" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List" />
-        from tb_knowledge
-    </select>
     <select id="selectAll" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from tb_user
     </select>
-    <update id="updateByPrimaryKeySelective" parameterType="com.qst.crop.entity.User">
+
+    <update id="updateByName" parameterType="com.qst.crop.entity.User">
         update tb_user
         <set>
             <if test="password != null">
@@ -151,16 +149,19 @@
         </set>
         where user_name = #{userName,jdbcType=VARCHAR}
     </update>
-    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultType="com.qst.crop.entity.User">
+
+    <select id="selectByName" parameterType="java.lang.String" resultType="com.qst.crop.entity.User">
         select
         <include refid="Base_Column_List" />
         from tb_user
         where user_name = #{userName,jdbcType=VARCHAR}
     </select>
+
     <select id="selectAddressByName" resultType="java.lang.String">
         select address from tb_user where user_name=#{ownName}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+
+    <delete id="deleteByName" parameterType="java.lang.String">
         delete from tb_user
         where user_name = #{userName,jdbcType=VARCHAR}
     </delete>

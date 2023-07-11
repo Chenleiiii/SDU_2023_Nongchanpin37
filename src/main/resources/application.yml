@@ -1,11 +1,11 @@
 server:
-  port: 9090
+  port: 8090
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/rongxiaotong?serverTimezone=GMT%2B8&useUnicode=true&characterEncodeing=UTF-8&useSSL=false
     username: root
-    password: zq0814
+    password: jh853211
   jackson:
     time-zone: GMT+8
   redis:
@@ -19,11 +19,11 @@ spring:
   application:
     name: uploadService8007
   resources:
-    static-locations: file:d:/zq/file/order,file:d:/zq/file/avatar,file:d:/zq/file/video
+    static-locations: file:d:/java/file/order,file:d:/java/file/avatar,file:d:/java/file/video
   mvc:
     static-path-pattern: /file/**
 application:
-    upload-path: d:/zq/file
+  upload-path: d:/java/file
 #mybatis配置
 mybatis:
   mapper-locations: classpath:mapper/*.xml

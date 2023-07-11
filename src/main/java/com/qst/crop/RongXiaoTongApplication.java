@@ -11,7 +11,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 
 @SpringBootApplication
 @MapperScan(basePackages = "com.qst.crop.dao")
-@EnableSwagger2
+//@EnableSwagger2
 public class RongXiaoTongApplication {
     public static void main(String[] args) {
         SpringApplication.run(RongXiaoTongApplication.class,args);
