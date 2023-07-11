@@ -17,7 +17,6 @@ import java.util.Map;
  * 生成令牌，验证等等一些操作
  */
 @Data
-//@ConfigurationProperties(prefix = "jwt")
 @Component
 public class JwtTokenUtil {
     private String secret = "qst123456";

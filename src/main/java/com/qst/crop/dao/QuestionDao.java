@@ -3,11 +3,12 @@ package com.qst.crop.dao;
 import com.qst.crop.entity.Question;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Mapper
+@Component
 @Repository
 public interface QuestionDao {
     List<Question> selectQuesByKeys(@Param("keys") String keys);

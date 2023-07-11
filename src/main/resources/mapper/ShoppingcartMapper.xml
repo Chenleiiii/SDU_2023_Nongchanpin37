@@ -19,10 +19,12 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
+
   <sql id="Base_Column_List">
     shopping_id, order_id, count, own_name, create_time, update_time
   </sql>
-  <select id="selectByShopping" parameterType="com.qst.crop.entity.Shoppingcart" resultMap="ModelMap">
+
+  <select id="selectByCart" parameterType="com.qst.crop.entity.Shoppingcart" resultMap="ModelMap">
     SELECT
     sho.shopping_id , sho.order_id, ord.own_name, sho.count, ord.title, ord.content, ord.price, ord.picture
     FROM
@@ -37,11 +39,13 @@
       </if>
     </where>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+  <delete id="delete" parameterType="java.lang.Integer">
     delete from tb_shoppingcart
     where shopping_id = #{shoppingId,jdbcType=INTEGER}
   </delete>
-  <insert id="insertSelective" parameterType="com.qst.crop.entity.Shoppingcart">
+
+  <insert id="insert" parameterType="com.qst.crop.entity.Shoppingcart">
     insert into tb_shoppingcart
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="shoppingId != null">
@@ -84,7 +88,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.qst.crop.entity.Shoppingcart">
+
+  <update id="updateById" parameterType="com.qst.crop.entity.Shoppingcart">
     update tb_shoppingcart
     <set>
       <if test="orderId != null">

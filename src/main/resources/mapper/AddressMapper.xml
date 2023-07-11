@@ -13,7 +13,8 @@
     <sql id="Base_Column_List">
         id, own_name, consignee, phone, address_detail, is_default
     </sql>
-    <insert id="insertSelective" parameterType="com.qst.crop.entity.Address">
+
+    <insert id="insert" parameterType="com.qst.crop.entity.Address">
         insert into tb_address
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -57,7 +58,7 @@
         </trim>
     </insert>
 
-    <select id="selectByExample" resultMap="BaseResultMap">
+    <select id="selectByOwnName" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from tb_address
@@ -67,7 +68,8 @@
             </if>
         </where>
     </select>
-    <select id="selectOneByExample" resultMap="BaseResultMap">
+
+    <select id="selectDefaultByOwnName" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from tb_address
@@ -79,9 +81,9 @@
             and is_default = #{isDef}
         </if>
         </where>
-
     </select>
-    <update id="updateByPrimaryKey" parameterType="com.qst.crop.entity.Address">
+
+    <update id="updateById" parameterType="com.qst.crop.entity.Address">
         update tb_address
         set own_name = #{ownName,jdbcType=VARCHAR},
         consignee = #{consignee,jdbcType=VARCHAR},
@@ -90,13 +92,15 @@
         is_default = #{isDefault,jdbcType=TINYINT}
         where id = #{id,jdbcType=INTEGER}
     </update>
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.qst.crop.entity.Address">
+
+    <select id="selectById" parameterType="java.lang.Integer" resultType="com.qst.crop.entity.Address">
         select
         <include refid="Base_Column_List" />
         from tb_address
         where id = #{id,jdbcType=INTEGER}
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+
+    <delete id="deleteById" parameterType="java.lang.Integer">
         delete from tb_address
         where id = #{id,jdbcType=INTEGER}
     </delete>

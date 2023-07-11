@@ -60,7 +60,7 @@
         update tb_question
         <set>
             <if test="question != null">question = #{question,jdbcType=VARCHAR},</if>
-            <if test="answer != null">answer = #{answer,jdbcType=VARCHAR},</if>
+            <if test="answer != null">answer = #{answer,jdbcType=VARCHAR},status = 1,</if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
@@ -84,8 +84,4 @@
       delete from tb_question
       where id = #{id,jdbcType=INTEGER}
     </delete>
-
-
-
-
 </mapper>

@@ -96,4 +96,19 @@ public class Question {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", expertName='" + expertName + '\'' +
+                ", questioner='" + questioner + '\'' +
+                ", phone='" + phone + '\'' +
+                ", plantName='" + plantName + '\'' +
+                ", title='" + title + '\'' +
+                ", question='" + question + '\'' +
+                ", answer='" + answer + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }

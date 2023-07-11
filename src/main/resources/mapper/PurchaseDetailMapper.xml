@@ -9,9 +9,11 @@
     <result column="sum_price" jdbcType="DECIMAL" property="sumPrice" />
     <result column="count" jdbcType="INTEGER" property="count" />
   </resultMap>
+
   <sql id="Base_Column_List">
     detail_id, purchase_id, order_id, unin_price, sum_price, count
   </sql>
+
   <select id="selectByPurchaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -19,7 +21,7 @@
     where purchase_id = #{purchaseId,jdbcType=INTEGER}
   </select>
 
-  <insert id="insertSelective" parameterType="com.qst.crop.entity.PurchaseDetail">
+  <insert id="insert" parameterType="com.qst.crop.entity.PurchaseDetail">
     insert into tb_purchase_detail
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="detailId != null">

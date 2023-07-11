@@ -11,12 +11,13 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
+
   <sql id="Base_Column_List">
     purchase_id, own_name, purchase_type, total_price, address, purchase_status, create_time,
     update_time
   </sql>
 
-  <insert id="insertSelective" parameterType="com.qst.crop.entity.Purchase">
+  <insert id="insert" parameterType="com.qst.crop.entity.Purchase">
     insert into tb_purchase
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="purchaseId != null">
@@ -71,7 +72,8 @@
       </if>
     </trim>
   </insert>
-  <select id="selectNewPurchaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+  <select id="selectByNewPurchaseId" parameterType="java.lang.String" resultMap="BaseResultMap">
     SELECT
     <include refid="Base_Column_List" />
     FROM
@@ -81,6 +83,7 @@
     order by create_time desc
     limit 1
   </select>
+
   <select id="selectByPurchase" resultType="com.qst.crop.model.MyPurchase">
     select tb.purchaseId,tu.real_name as ownName,tb.purchaseType,
            tb.totalPrice,tu.address ,tb.purchaseStatus ,tb.createTime ,

@@ -7,6 +7,7 @@ import com.qst.crop.entity.Expert;
 import com.qst.crop.entity.Question;
 import com.qst.crop.service.ExpertService;
 import com.qst.crop.service.QuestionService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -15,17 +16,15 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Api(tags = "question模块")
 @RestController
 @RequestMapping("/question")
+@CrossOrigin
 public class QuestionController {
     @Autowired
     private QuestionService questionService;
     @Autowired
     private ExpertService expertService;
-
-
-
-
 
     //分页查询所有问题
     @ApiOperation(value = "分页查询所有问题")
@@ -37,7 +36,7 @@ public class QuestionController {
 
     //分页条件查询问题
     @ApiOperation(value = "分页条件查询问题")
-    @GetMapping("/findQuesByKeys/{keys}/{pageNum}")
+    @GetMapping("/findPageQues/{keys}/{pageNum}")
     public Result<PageInfo<Question>> findQuesByKeys(@PathVariable("keys") String keys, @PathVariable Integer pageNum) {
         PageInfo<Question> questionPageInfo = questionService.selectByKeys(keys,pageNum);
         return new Result(true, StatusCode.OK, "查询成功", questionPageInfo);
@@ -45,7 +44,7 @@ public class QuestionController {
 
     //分页查询所有专家
     @ApiOperation(value = "分页查询所有专家")
-    @GetMapping("/findAllExpert/{pageNum}")
+    @GetMapping("/findExpert/{pageNum}")
     public Result<PageInfo<Expert>> findAllExpert(@PathVariable Integer pageNum) {
         PageInfo<Expert> expertPageInfo = expertService.selectByKeys(null, pageNum);
         return new Result<PageInfo<Expert>>(true, StatusCode.OK, "查询成功", expertPageInfo);
@@ -61,7 +60,7 @@ public class QuestionController {
 
     //根据ID查询问题内容
     @ApiOperation(value = "根据ID查询问题内容")
-    @GetMapping("/selectById/{id}")
+    @GetMapping("/selectId/{id}")
     public Result selectById(@PathVariable("id") Integer id) {
         Question question = questionService.selectById(id);
         return new Result(true, StatusCode.OK, "查询成功", question);
@@ -93,7 +92,7 @@ public class QuestionController {
 
     //查询用户或专家的问题
     @ApiOperation(value = "查询用户或专家的问题")
-    @GetMapping("/selectByUserOrExpert/{type}")
+    @GetMapping("/selectByKind/{type}")
     public Result selectByUserOrExpert(@PathVariable("type") String type) {
         List<Question> questions = questionService.selectByMan(type);
         return new Result(true, StatusCode.OK, "查询成功", questions);

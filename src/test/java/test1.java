@@ -173,7 +173,7 @@ public class test1 {
         user.setRole("user");
         user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
-        int i = userDao.insertSelective(user);
+        int i = userDao.insert(user);
         System.out.println(i);
     }
 

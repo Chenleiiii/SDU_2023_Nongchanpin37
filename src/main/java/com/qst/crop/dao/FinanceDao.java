@@ -5,10 +5,13 @@ import com.qst.crop.entity.Finance;
 import com.qst.crop.entity.Intention;
 import com.qst.crop.entity.Recommend;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
-
+@Component
+@Repository
 public interface FinanceDao {
 
     int deleteByPrimaryKey(Integer financeId);
@@ -29,11 +32,7 @@ public interface FinanceDao {
 
     void deleteIntentionByName(String name);
 
-//    List<Recommend> selectRecommendByName(String name);
-
     String selectAvatarByName(String userName);
-
-    List<String> selectItems(String userName);
 
     List<Recommend> selectRecommend(@Param("name") String name,@Param("product") String product);
 
@@ -50,7 +49,6 @@ public interface FinanceDao {
     Bank selectBankById(String bankId);
 
     Intention selectIntention(String name);
-
 
     Finance selectIfApply(String name);
 
