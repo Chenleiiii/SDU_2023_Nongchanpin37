@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.crop.dao.ExpertDao">
+  <resultMap id="BaseResultMap" type="com.qst.crop.entity.Expert">
+    <id column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="real_name" jdbcType="VARCHAR" property="realName" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="profession" jdbcType="VARCHAR" property="profession" />
+    <result column="position" jdbcType="VARCHAR" property="position" />
+    <result column="belong" jdbcType="VARCHAR" property="belong" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    user_name, real_name, phone, profession, position, belong
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_expert
+    where user_name = #{userName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllExpert"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_expert
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_expert
+    where user_name = #{userName,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insertSelective" parameterType="com.qst.crop.entity.Expert">
+    insert into tb_expert
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userName != null">
+        user_name,
+      </if>
+      <if test="realName != null">
+        real_name,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="profession != null">
+        profession,
+      </if>
+      <if test="position != null">
+        position,
+      </if>
+      <if test="belong != null">
+        belong,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userName != null">
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null">
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null">
+        #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="belong != null">
+        #{belong,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qst.crop.entity.Expert">
+    update tb_expert
+    <set>
+      <if test="realName != null">
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="profession != null">
+        profession = #{profession,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        position = #{position,jdbcType=VARCHAR},
+      </if>
+      <if test="belong != null">
+        belong = #{belong,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_name = #{userName,jdbcType=VARCHAR}
+  </update>
+  <select id="selectAllByKeys"  parameterType="java.lang.String"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_expert
+    where
+    real_name like CONCAT('%',#{keys,jdbcType=VARCHAR},'%') OR user_name like CONCAT('%',#{keys,jdbcType=VARCHAR},'%')
+  </select>
+</mapper>

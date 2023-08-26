@@ -1,0 +1,25 @@
+@font-face {
+    font-family: '汉仪雅酷黑';
+    src:url("./汉仪雅酷黑W.ttf");
+}
+
+@font-face {
+    font-family: '鸿蒙字体Regular';
+    src:url("./HarmonyOS_Sans_Regular.ttf");
+}
+
+
+@font-face {
+    font-family: '苹果字体Black';
+    src:url("./SF-Pro-Display-Black.otf");
+}
+
+@font-face {
+    font-family: '字魂武林江湖体';
+    src:url("./字魂110号-武林江湖体.ttf");
+}
+
+@font-face {
+    font-family: '思源黑体heavy';
+    src:url("./思源黑体CN-Heavy.otf");
+}

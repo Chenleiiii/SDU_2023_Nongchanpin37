@@ -1,0 +1,167 @@
+@charset "UTF-8";
+
+html,
+body {
+  font-size: 14px;
+  color: #333;
+  font-family: "PingFang SC";
+  font-weight: 100;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  height: 100%;
+}
+
+.qst-loading {
+  width: 100%;
+  height: 100%;
+  position: absolute !important;
+  background: #fff;
+  z-index: 11;
+  opacity: 0.8;
+  left: 0;
+  right: 0;
+  top: 0;
+  text-align: center;
+  bottom: 0;
+  .loadingnei {
+    top: 50%;
+    width: 40px;
+    height: 50px;
+  }
+}
+.all-title-color{
+  color: #333;
+  font-weight: bold;
+}
+.all-content-color{
+  color: #807e7e;
+  font-weight: 400;
+}
+.linkable{
+  cursor: pointer;
+  padding-left:10px;
+  // color:$qst-theme-color;
+  &:hover{
+    // color:  $qst-hover-color;
+  }
+}
+.unwrap {
+  word-break: keep-all;
+}
+
+div {
+  box-sizing: border-box
+}
+pre{
+  font-size: 14px;
+  color: #333333;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: #fff;
+  border: 1px solid #fff;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.el-table {
+  margin-top: 5px;
+  border-top: 1px solid #EBEEF5;
+  border-left: 1px solid #EBEEF5;
+  border-right: 1px solid #EBEEF5;
+  &.el-table--border {
+    border-right: none;
+  }
+  th {
+    background: #f5f7fa;
+    color: #333;
+  }
+  .el-table-column--selection {
+    color: transparent;
+    .el-checkbox {
+      color: transparent;
+    }
+  }
+}
+.el-button{
+  padding: 7px 12px;
+}
+
+.el-button:focus,
+.el-button:hover {
+  color: #fff;
+  background-color: #60D329;
+  border-color: #60D329;
+}
+.el-button:active {
+  color: #fff;
+  border-color: #60D329;
+}DB9D2CFF
+.el-button--text {
+  color: #333;
+}
+.el-button--text:focus,
+.el-button--text:hover {
+  color: #fff;
+  background-color: #fff;
+  border-color: #fff;
+}
+
+.el-button:active {
+  color: #fff;
+  border-color: #fff;
+}
+
+.el-submenu__title:focus,
+.el-submenu__title:hover {
+  outline: 0;
+  background-color: rgba(145,208,151,0.2);
+}
+
+.el-menu-item:focus,
+.el-menu-item:hover {
+  outline: 0;
+  background: rgba(145,208,151,0.2);
+}
+
+.el-menu--horizontal>.el-submenu .el-submenu__title{
+  height: 40px;
+  line-height: 40px;
+}
+
+input[type="file"]{
+  display: none;
+}
+
+.el-dialog__body{
+  padding: 10px 20px;
+}
+.el-dialog__header{
+  border-bottom: 1px solid #f2f2f2;
+}
+
+ .el-input__prefix, .el-input__suffix {
+  -webkit-transition: all .3s;
+  font-size: 18px;
+  font-weight: bold;
+  color: #797979;
+}
+.el-input__prefix :hover, .el-input__suffix:hover{
+  -webkit-transition: all .3s;
+  font-size: 18px;
+  font-weight: bold;
+  color: #00cbff;
+}
+
+.el-input--prefix .el-input__inner{
+  border-radius: 100px;
+}
+
+
+.el-form-item__label{
+  color: #000000;
+  font-family:"PingFang SC";
+  font-size: 16px;
+  font-weight:100;
+
+}

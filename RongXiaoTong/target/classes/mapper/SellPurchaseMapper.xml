@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.crop.dao.SellPurchaseDao">
+  <resultMap id="BaseResultMap" type="com.qst.crop.entity.SellPurchase">
+    <id column="sell_purchase_id" jdbcType="INTEGER" property="sellPurchaseId" />
+    <result column="purchase_id" jdbcType="INTEGER" property="purchaseId" />
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="own_name" jdbcType="VARCHAR" property="ownName" />
+    <result column="purchase_type" jdbcType="INTEGER" property="purchaseType" />
+    <result column="unin_pricee" jdbcType="DECIMAL" property="uninPricee" />
+    <result column="sum_price" jdbcType="DECIMAL" property="sumPrice" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="purchase_status" jdbcType="INTEGER" property="purchaseStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+  </resultMap>
+  <sql id="Base_Column_List">
+
+    sell_purchase_id, purchase_id, order_id,own_name, purchase_type, unin_pricee, sum_price, address,
+    purchase_status, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_sell_purchase
+    where sell_purchase_id = #{sellPurchaseId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_sell_purchase
+    where sell_purchase_id = #{sellPurchaseId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insertSelective" parameterType="com.qst.crop.entity.SellPurchase">
+    insert into tb_sell_purchase
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="sellPurchaseId != null">
+        sell_purchase_id,
+      </if>
+      <if test="purchaseId != null">
+        purchase_id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="ownName != null">
+        own_name,
+      </if>
+      <if test="purchaseType != null">
+        purchase_type,
+      </if>
+      <if test="uninPricee != null">
+        unin_pricee,
+      </if>
+      <if test="sumPrice != null">
+        sum_price,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="purchaseStatus != null">
+        purchase_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="sellPurchaseId != null">
+        #{sellPurchaseId,jdbcType=INTEGER},
+      </if>
+      <if test="purchaseId != null">
+        #{purchaseId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="ownName != null">
+        #{ownName,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseType != null">
+        #{purchaseType,jdbcType=INTEGER},
+      </if>
+      <if test="uninPricee != null">
+        #{uninPricee,jdbcType=DECIMAL},
+      </if>
+      <if test="sumPrice != null">
+        #{sumPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseStatus != null">
+        #{purchaseStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qst.crop.entity.SellPurchase">
+    update tb_sell_purchase
+    <set>
+      <if test="purchaseId != null">
+        purchase_id = #{purchaseId,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="ownName != null">
+        own_name = #{ownName,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseType != null">
+        purchase_type = #{purchaseType,jdbcType=INTEGER},
+      </if>
+      <if test="uninPricee != null">
+        unin_pricee = #{uninPricee,jdbcType=DECIMAL},
+      </if>
+      <if test="sumPrice != null">
+        sum_price = #{sumPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseStatus != null">
+        purchase_status = #{purchaseStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where sell_purchase_id = #{sellPurchaseId,jdbcType=INTEGER}
+  </update>
+  <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+
+    SELECT tb.sell_purchase_id,tb.purchase_id ,tb.order_id ,tu.real_name as own_name ,tb.purchase_type ,tb.unin_pricee ,tb.sum_price ,tb.purchase_status ,tb.create_time ,
+    tb.update_time,tu.address,tu.phone from tb_user as tu,
+    (SELECT tb1.*,tb2.own_name as realName
+    from tb_sell_purchase as tb1,tb_purchase as tb2
+    where tb1.own_name = #{ownName} and tb1.purchase_id=tb2.purchase_id) as tb
+    WHERE  tb.realName = tu.user_name
+  </select>
+</mapper>

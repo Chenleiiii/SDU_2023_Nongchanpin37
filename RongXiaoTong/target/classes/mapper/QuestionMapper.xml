@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.crop.dao.QuestionDao">
+  <resultMap id="BaseResultMap" type="com.qst.crop.entity.Question">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="real_name" jdbcType="VARCHAR" property="expertName" />
+    <result column="questioner" jdbcType="VARCHAR" property="questioner" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="plant_name" jdbcType="VARCHAR" property="plantName" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="question" jdbcType="VARCHAR" property="question" />
+    <result column="answer" jdbcType="VARCHAR" property="answer" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, expert_name, questioner, phone, plant_name, title, question, answer, status
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_question
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByQuestion" parameterType="com.qst.crop.entity.Question" resultMap="BaseResultMap">
+    select tb1.id, tb2.real_name, tb3.real_name as questioner, tb1.phone, tb1.plant_name, tb1.title, tb1.question, tb1.answer, tb1.status
+    from tb_question as tb1, tb_expert as tb2,tb_user as tb3
+    <where>
+      tb1.expert_name=tb2.user_name
+      AND tb1.questioner=tb3.user_name
+      <if test="expertName != null">
+        and tb1.expert_name = #{expertName,jdbcType=VARCHAR}
+      </if>
+      <if test="questioner != null">
+        and tb1.questioner = #{questioner,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+<!--  <select id="selectAllByKeys" resultType="com.qst.crop.entity.Question">-->
+<!--    select-->
+<!--    <include refid="Base_Column_List" />-->
+<!--    from tb_question-->
+<!--    <where>-->
+<!--      <if test="keys != null">-->
+<!--        title like CONCAT('%',#{keys,jdbcType=VARCHAR},'%')-->
+<!--      </if>-->
+<!--    </where>-->
+<!--  </select>-->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  delete from tb_question
+  where id = #{id,jdbcType=INTEGER}
+</delete>
+  <insert id="insertSelective" parameterType="com.qst.crop.entity.Question">
+    insert into tb_question
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="expertName != null">
+        expert_name,
+      </if>
+      <if test="questioner != null">
+        questioner,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="plantName != null">
+        plant_name,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="question != null">
+        question,
+      </if>
+      <if test="answer != null">
+        answer,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="expertName != null">
+        #{expertName,jdbcType=VARCHAR},
+      </if>
+      <if test="questioner != null">
+        #{questioner,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="plantName != null">
+        #{plantName,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="question != null">
+        #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null">
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.qst.crop.entity.Question">
+    update tb_question
+    <set>
+
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="plantName != null">
+        plant_name = #{plantName,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="question != null">
+        question = #{question,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null">
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectAllByKeys" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select tb1.id, tb2.real_name, tb3.real_name as questioner, tb1.phone, tb1.plant_name, tb1.title, tb1.question, tb1.answer, tb1.status
+    from tb_question as tb1, tb_expert as tb2,tb_user as tb3
+    <where>
+      tb1.expert_name=tb2.user_name
+      AND tb1.questioner=tb3.user_name
+
+      <if test="keys != null">
+       and title like CONCAT('%',#{keys,jdbcType=VARCHAR},'%')
+      </if>
+    </where>
+
+  </select>
+</mapper>

@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qst.crop.dao.OrderDao">
+    <resultMap id="BaseResultMap" type="com.qst.crop.entity.Order">
+        <id column="order_id" jdbcType="INTEGER" property="orderId" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="price" jdbcType="DECIMAL" property="price" />
+        <result column="content" jdbcType="VARCHAR" property="content" />
+        <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+        <result column="type" jdbcType="VARCHAR" property="type" />
+        <result column="picture" jdbcType="VARCHAR" property="picture" />
+        <result column="own_name" jdbcType="VARCHAR" property="ownName" />
+        <result column="cooperation_name" jdbcType="VARCHAR" property="cooperationName" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="address" jdbcType="VARCHAR" property="address" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        order_id, title, price, content, order_status, type, picture, own_name, cooperation_name,
+        create_time, update_time, address
+    </sql>
+    <insert id="insertSelective" parameterType="com.qst.crop.entity.Order">
+        insert into tb_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                order_id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="orderStatus != null">
+                order_status,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="picture != null">
+                picture,
+            </if>
+            <if test="ownName != null">
+                own_name,
+            </if>
+            <if test="cooperationName != null">
+                cooperation_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="orderId != null">
+                #{orderId,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="orderStatus != null">
+                #{orderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="picture != null">
+                #{picture,jdbcType=VARCHAR},
+            </if>
+            <if test="ownName != null">
+                #{ownName,jdbcType=VARCHAR},
+            </if>
+            <if test="cooperationName != null">
+                #{cooperationName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectByExample" parameterType="com.qst.crop.entity.Order" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_order
+        <where>
+
+            <if test="orderId != null">
+                and order_id = #{orderId,jdbcType=VARCHAR}
+            </if>
+            <if test="title != null">
+                and title = #{title,jdbcType=VARCHAR}
+            </if>
+            <if test="price != null">
+                and price = #{price,jdbcType=DECIMAL}
+            </if>
+            <if test="content != null">
+                and content = #{content,jdbcType=VARCHAR}
+            </if>
+            <if test="orderStatus != null">
+                and order_status = #{orderStatus,jdbcType=INTEGER}
+            </if>
+            <if test="type != null">
+                and type = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="picture != null">
+                and picture = #{picture,jdbcType=VARCHAR}
+            </if>
+            <if test="ownName != null">
+                and own_name = #{ownName,jdbcType=VARCHAR}
+            </if>
+            <if test="cooperationName != null">
+                and cooperation_name = #{cooperationName,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="address != null">
+                and address = #{address,jdbcType=VARCHAR}
+            </if>
+        </where>
+order by order_status
+    </select>
+    <select id="selectAll" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_order
+        where order_status=0
+        order by update_time desc
+    </select>
+    <update id="updateByPrimaryKeySelective" parameterType="com.qst.crop.entity.Order">
+        update tb_order
+        <set>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price,jdbcType=DECIMAL},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="picture != null">
+                picture = #{picture,jdbcType=VARCHAR},
+            </if>
+            <if test="ownName != null">
+                own_name = #{ownName,jdbcType=VARCHAR},
+            </if>
+            <if test="cooperationName != null">
+                cooperation_name = #{cooperationName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </update>
+    <update id="takeDown">
+        update tb_order
+        set order_status = 1
+        where order_id = #{orderId};
+    </update>
+    <update id="takeUp">
+        update tb_order
+        set order_status = 0
+        where order_id = #{orderId};
+    </update>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.qst.crop.entity.Order">
+        select
+        <include refid="Base_Column_List" />
+        from tb_order
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from tb_order
+        where order_id = #{orderId,jdbcType=INTEGER}
+    </delete>
+    <select id="selectByKeys" parameterType="com.qst.crop.entity.Order" resultType="com.qst.crop.entity.Order">
+            select
+            <include refid="Base_Column_List" />
+            from tb_order
+            <where>
+                order_status = 0
+                <if test="type != null">
+                    and type = #{type}
+                </if>
+                <if test="content != null">
+                    and content like CONCAT('%',#{content},'%')
+                </if>
+                <if test="ownName != null">
+                    and own_name = #{ownName}
+                </if>
+
+            </where>
+        </select>
+    <select id="selectAllGoods" resultType="com.qst.crop.entity.Order">
+        select
+        <include refid="Base_Column_List" />
+        from tb_order
+        <where>
+            order_status = 0
+            <if test="orderId != null">
+                and order_id = #{orderId,jdbcType=VARCHAR}
+            </if>
+            <if test="title != null">
+                and title = #{title,jdbcType=VARCHAR}
+            </if>
+            <if test="price != null">
+                and price = #{price,jdbcType=DECIMAL}
+            </if>
+            <if test="content != null">
+                and content = #{content,jdbcType=VARCHAR}
+            </if>
+            <if test="orderStatus != null">
+                and order_status = #{orderStatus,jdbcType=INTEGER}
+            </if>
+            <if test="type != null">
+                and type = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="picture != null">
+                and picture = #{picture,jdbcType=VARCHAR}
+            </if>
+            <if test="ownName != null">
+                and own_name = #{ownName,jdbcType=VARCHAR}
+            </if>
+            <if test="cooperationName != null">
+                and cooperation_name = #{cooperationName,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="address != null">
+                and address = #{address,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+    <select id="selectAllNeeds" resultType="com.qst.crop.entity.Order">
+        select
+        <include refid="Base_Column_List" />
+        from tb_order
+        <where>
+
+            <if test="orderId != null">
+                and order_id = #{orderId,jdbcType=VARCHAR}
+            </if>
+            <if test="title != null">
+                and title = #{title,jdbcType=VARCHAR}
+            </if>
+            <if test="price != null">
+                and price = #{price,jdbcType=DECIMAL}
+            </if>
+            <if test="content != null">
+                and content = #{content,jdbcType=VARCHAR}
+            </if>
+            <if test="orderStatus != null">
+                and order_status = #{orderStatus,jdbcType=INTEGER}
+            </if>
+            <if test="type != null">
+                and type = #{type,jdbcType=VARCHAR}
+            </if>
+            <if test="picture != null">
+                and picture = #{picture,jdbcType=VARCHAR}
+            </if>
+            <if test="ownName != null">
+                and own_name = #{ownName,jdbcType=VARCHAR}
+            </if>
+            <if test="cooperationName != null">
+                and cooperation_name = #{cooperationName,jdbcType=VARCHAR}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="address != null">
+                and address = #{address,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+</mapper>
